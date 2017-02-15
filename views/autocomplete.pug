@@ -2,7 +2,7 @@ html
 	head
 	body
 		form
-			input(name='name', type='text', list='teams', id='teamInput', placehorlder='Search first name')
+			input(autocomplete="off", name='name', type='text', list='teams', id='teamInput', placehorlder='Search first name')
 			datalist(id='teams')
 			button(type='submit', formmethod='post') Search
 
@@ -10,18 +10,21 @@ html
 
 		script(src="jquery-3.1.1.js")
 		script.
+			var setTimer = 0
 			$('#teamInput').keyup(function(event) {
+				var timeInMs1 = Date.now()
+				
 				var userInput = $("#teamInput").val()
 				console.log(userInput)
 
 				var dataSend = {
 				pass: userInput
 				}
+				if (timeInMs1 - setTimer > 3000) {
 				$.post('/autocomplete', dataSend, function(result) {
-					$("#teams").append("<option>"+result+"</option>")
-					console.log(result)
-
-			});	//server terug naar client{})
-		
-				
-			});
+				$("#teams").append("<option>"+result+"</option>")
+				console.log(result)
+					setTimer = Date.now()	
+				});	//server terug naar 
+				}//if
+			});//keyup
