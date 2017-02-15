@@ -2,7 +2,10 @@ html
 	head
 	body
 		form(action="/addUser" method="post")
-			input(name='firstName', type='text', placehorlder='First name', id='firstName')
+			input(name='firstName', type='text', list='teams', placehorlder='First name', id='firstName')
+			datalist(id='teams')
+				option(value='My great team')
+				option(value='My other team')
 			input(name='lastName', type='text', placehorlder='Last name', id='lastName') 
 			input(name='email', type='text', placehorlder='Email', id='name') 
 			button(type='submit', formmethod='post') Join the club!

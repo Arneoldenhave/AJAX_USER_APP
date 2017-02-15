@@ -2,18 +2,39 @@ const express = require('express');
 const fs = require('fs');
 const bodyParser = require('body-parser')
 const app = express();
-// const fs = writeFileSync()
 
-//app.use(bodyParser)
 app.use(bodyParser.json());
-// const urlencodedParsed = bodyParser.urlencoded ({extended : true})
-
 app.use(bodyParser.urlencoded({extended: true}));
-
 app.set('views', __dirname + '/views');
 app.set('view engine', 'pug');
+app.use(express.static("static"))
 
 
+//autocomplete
+app.get('/autocomplete', (req, res) => {
+	res.render ('autocomplete')
+});
+
+app.post('/autocomplete', (req,res) => {
+	fs.readFile('./users.json', 'utf8', (err, data) => {
+		
+		const users = JSON.parse(data);
+		const data1 = req.body.pass
+		console.log(data1)
+		const result = []
+		for (var i = 0; i < users.length; i++) {
+			if (users[i].firstname.indexOf(data1) > -1 || users[i].lastname.indexOf(data1)) {
+				result.push(users[i])
+				console.log(users[i])
+			}
+
+		}
+		
+	res.send(result);
+	
+
+	});
+});
 
 
 //Frist page with list of users
@@ -62,6 +83,7 @@ app.get('/addUser', (req, res) => {
 app.get('/oops', (req, res) => {
 	res.render ('oops')
 })
+
 
 //Name comparerer
 app.post('/search', (req, res) =>{

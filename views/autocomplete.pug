@@ -1,0 +1,27 @@
+html
+	head
+	body
+		form
+			input(name='name', type='text', list='teams', id='teamInput', placehorlder='Search first name')
+			datalist(id='teams')
+			button(type='submit', formmethod='post') Search
+
+
+
+		script(src="jquery-3.1.1.js")
+		script.
+			$('#teamInput').keyup(function(event) {
+				var userInput = $("#teamInput").val()
+				console.log(userInput)
+
+				var dataSend = {
+				pass: userInput
+				}
+				$.post('/autocomplete', dataSend, function(result) {
+					$("#teams").append("<option>"+result+"</option>")
+					console.log(result)
+
+			});	//server terug naar client{})
+		
+				
+			});
