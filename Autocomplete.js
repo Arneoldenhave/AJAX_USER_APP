@@ -1,3 +1,12 @@
+
+var input = document.queryselector("#teamInput");
+var config = { 
+url: some,
+}
+new Autocomplete(input, config);
+var teamInput = document.queryselector('#teamInput');
+
+
 function Autocomplete(input, config) {
 	input.addEventListener("keyup", function(event){
 
