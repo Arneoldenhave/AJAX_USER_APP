@@ -16,6 +16,7 @@ app.get('/autocomplete', (req, res) => {
 });
 
 app.post('/autocomplete', (req,res) => {
+	console.log(req.body)
 	fs.readFile('./users.json', 'utf8', (err, data) => {
 		
 		const users = JSON.parse(data);
@@ -115,17 +116,14 @@ app.post('/search', (req, res) =>{
 
 //new user
 app.post('/addUser', (req, res)=> {
-	// var firstName = req.body.firstName
-	// var lastName = req.body.lastName
-	// var email = req.body.email
-
+	
 	var user = {
 		firstname: req.body.firstName,
 		lastname: req.body.lastName,
 		email: req.body.email,
 	}	
-// check if already in database
 
+	// check if already in database
 	fs.readFile('./users.json', 'utf8', (err, data) => { //check
 		if (err) throw err;
 		var users =JSON.parse(data)
@@ -133,19 +131,16 @@ app.post('/addUser', (req, res)=> {
 			if (user.firstname === users[i].firstName || user.lastname === users[i].lastName || user.email === users[i].email) {
 					res.render('oops')
 			} //closes if
-			else { 
-				var users = JSON.parse(data);
-				users.push(user)
-				users = JSON.stringify(users)
-			// if not in database it will write a file(for now)
-				fs.writeFile('./users.json', users, 'utf-8', (err) => {
-					if (err) throw err
-						users = JSON.parse(users)
-						res.render('index', {users : users});
-
-					}) //for loop 
-				} //write file
-			} //else
+		}//closes for
+		
+		fs.writeFile('./users.json', users, 'utf-8', (err) => {
+			var users = JSON.parse(data);
+			users.push(user)
+			users = JSON.stringify(users)
+			if (err) throw err
+				users = JSON.parse(users)
+				res.render('index', {users : users});
+		}) //write file
 	}) // fs.readfile
 }) //app.post
 
